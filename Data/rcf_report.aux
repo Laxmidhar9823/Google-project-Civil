@@ -1,0 +1,68 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}The Dataset: What It Actually Contains}{2}{section.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Per-feature availability among the 85 yielding papers. Material family, processing method and w/b are well populated; fineness measures (BET, Blaine, specific surface) and amorphous content are scarce. The dataset is larger than the RHA corpus but no less sparse.}}{3}{figure.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:avail}{{1}{3}{Per-feature availability among the 85 yielding papers. Material family, processing method and w/b are well populated; fineness measures (BET, Blaine, specific surface) and amorphous content are scarce. The dataset is larger than the RHA corpus but no less sparse}{figure.caption.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Data Representation: Parsing Two Sheets Into One Table}{3}{section.3}\protected@file@percent }
+\newlabel{sec:parse}{{3}{3}{Data Representation: Parsing Two Sheets Into One Table}{section.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Curing age is not assumed.}{4}{section*.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Parse funnel (left) and the distribution of recovered points by replacement level (right). The corpus is concentrated at 10--30\% replacement, with a long tail out to 100\%.}}{4}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:yield}{{2}{4}{Parse funnel (left) and the distribution of recovered points by replacement level (right). The corpus is concentrated at 10--30\% replacement, with a long tail out to 100\%}{figure.caption.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The two sheets contribute comparable numbers of points (976 and 849), but differ in what they resolve: 800 of the 976 \texttt  {Sheet1} points (82\%) state a curing age, against 484 of the 849 matrix points (57\%). Both sources are needed---Study~6 shows that training on the matrix alone costs more than half the achievable $R^2${}.}}{4}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:src}{{3}{4}{The two sheets contribute comparable numbers of points (976 and 849), but differ in what they resolve: 800 of the 976 \texttt {Sheet1} points (82\%) state a curing age, against 484 of the 849 matrix points (57\%). Both sources are needed---Study~6 shows that training on the matrix alone costs more than half the achievable \R {}}{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Checks against expected physics.}{5}{section*.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Physics checks on the parsed data, computed within papers. \textbf  {Left:} each \emph  {(paper, replacement level)} series is normalised by its own 28-day strength; the median rises with age (shaded band is the IQR across series). The 1-day point breaks the pattern because a different, smaller set of series reports it. \textbf  {Right:} the 28-day strength-vs-replacement curve has an interior optimum in only 23\% of papers; in 71\% the best level tested is the lowest one, frequently the 0\% control.}}{5}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:curves}{{4}{5}{Physics checks on the parsed data, computed within papers. \textbf {Left:} each \emph {(paper, replacement level)} series is normalised by its own 28-day strength; the median rises with age (shaded band is the IQR across series). The 1-day point breaks the pattern because a different, smaller set of series reports it. \textbf {Right:} the 28-day strength-vs-replacement curve has an interior optimum in only 23\% of papers; in 71\% the best level tested is the lowest one, frequently the 0\% control}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Feature Engineering}{5}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Methodology}{6}{section.5}\protected@file@percent }
+\newlabel{sec:ceiling}{{5}{6}{A noise ceiling worth stating up front}{section*.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{A noise ceiling worth stating up front.}{6}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Ablation Study}{6}{section.6}\protected@file@percent }
+\newlabel{sec:abl}{{6}{6}{Ablation Study}{section.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Study 1 --- Target framing.}{6}{section*.8}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Study 1: target framing (XGBoost, all structured features).}}{6}{table.caption.9}\protected@file@percent }
+\newlabel{tab:s1}{{1}{6}{Study 1: target framing (XGBoost, all structured features)}{table.caption.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{Study 2 --- Model.}{7}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Study 3 --- Feature set.}{7}{section*.11}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Study 2: model (framing C, all features).}}{7}{table.caption.12}\protected@file@percent }
+\newlabel{tab:s2}{{2}{7}{Study 2: model (framing C, all features)}{table.caption.12}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Study 3: feature set (framing C, XGBoost).}}{7}{table.caption.12}\protected@file@percent }
+\newlabel{tab:s3}{{3}{7}{Study 3: feature set (framing C, XGBoost)}{table.caption.12}{}}
+\@writefile{toc}{\contentsline {paragraph}{Study 4 --- Imputation.}{7}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Study 5 --- Physics priors.}{7}{section*.14}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Study 4: imputation (framing C).}}{7}{table.caption.15}\protected@file@percent }
+\newlabel{tab:s4}{{4}{7}{Study 4: imputation (framing C)}{table.caption.15}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Study 5: physics priors (base features).}}{7}{table.caption.15}\protected@file@percent }
+\newlabel{tab:s5}{{5}{7}{Study 5: physics priors (base features)}{table.caption.15}{}}
+\@writefile{toc}{\contentsline {paragraph}{Study 6 --- Which rows to train on.}{8}{section*.16}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Study 6: training data (framing C, XGBoost; held-out rows identical across variants).}}{8}{table.caption.17}\protected@file@percent }
+\newlabel{tab:s6}{{6}{8}{Study 6: training data (framing C, XGBoost; held-out rows identical across variants)}{table.caption.17}{}}
+\newlabel{fig:ablfeat}{{5a}{9}{Study 3 --- feature set}{figure.caption.18}{}}
+\newlabel{sub@fig:ablfeat}{{a}{9}{Study 3 --- feature set}{figure.caption.18}{}}
+\newlabel{fig:abldata}{{5b}{9}{Study 6 --- training data}{figure.caption.18}{}}
+\newlabel{sub@fig:abldata}{{b}{9}{Study 6 --- training data}{figure.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The two ablation axes where RCF behaves differently from RHA. Bars are mean\,$\pm $\,std over 40 repeated grouped hold-outs.}}{9}{figure.caption.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Final Model and Results}{9}{section.7}\protected@file@percent }
+\newlabel{sec:final}{{7}{9}{Final Model and Results}{section.7}{}}
+\newlabel{fig:pva}{{6a}{10}{Out-of-fold predictions}{figure.caption.19}{}}
+\newlabel{sub@fig:pva}{{a}{10}{Out-of-fold predictions}{figure.caption.19}{}}
+\newlabel{fig:resid}{{6b}{10}{Residual diagnostics}{figure.caption.19}{}}
+\newlabel{sub@fig:resid}{{b}{10}{Residual diagnostics}{figure.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Final model behaviour, from a single pooled 5-fold \texttt  {GroupKFold} pass ($R^2${}~$=0.54$ pooled, versus the $0.448\pm 0.175$ repeated-hold-out estimate quoted in the table above). Colour encodes replacement level. The dashed line is the ideal $y=x$; the points falling far below it at the right are the three high-strength papers.}}{10}{figure.caption.19}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Feature importance of the final model (top 12 of 37 columns after one-hot encoding). The paper's control strength dominates at 0.48; replacement level does not appear in the top eight.}}{11}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:imp}{{7}{11}{Feature importance of the final model (top 12 of 37 columns after one-hot encoding). The paper's control strength dominates at 0.48; replacement level does not appear in the top eight}{figure.caption.20}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Predicting the Optimal Replacement Level}{11}{section.8}\protected@file@percent }
+\newlabel{sec:opt}{{8}{11}{Predicting the Optimal Replacement Level}{section.8}{}}
+\@writefile{toc}{\contentsline {paragraph}{The target is measuring two different things.}{11}{section*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Neither label is beatable here, for different reasons.}{12}{section*.22}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces \textbf  {Left:} the model's argmax against each paper's reported optimum; MAE~$=14.0$ points over 32 held-out papers, worse than the $8.6$-point mean prior. \textbf  {Right:} why. Each paper's reported optimum plotted against the argmax of its \emph  {own} 28-day strength table---the two disagree by 14.1 points at $r=0.43$, with the reported values systematically higher. The label is not measuring strength maximization.}}{12}{figure.caption.23}\protected@file@percent }
+\newlabel{fig:opt}{{8}{12}{\textbf {Left:} the model's argmax against each paper's reported optimum; MAE~$=14.0$ points over 32 held-out papers, worse than the $8.6$-point mean prior. \textbf {Right:} why. Each paper's reported optimum plotted against the argmax of its \emph {own} 28-day strength table---the two disagree by 14.1 points at $r=0.43$, with the reported values systematically higher. The label is not measuring strength maximization}{figure.caption.23}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Comparison with the Rice-Husk-Ash Corpus}{12}{section.9}\protected@file@percent }
+\newlabel{sec:cmp}{{9}{12}{Comparison with the Rice-Husk-Ash Corpus}{section.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces RHA versus RCF, from the two pipelines' own outputs.}}{13}{table.caption.24}\protected@file@percent }
+\newlabel{tab:cmp}{{7}{13}{RHA versus RCF, from the two pipelines' own outputs}{table.caption.24}{}}
+\gdef \@abspage@last{13}

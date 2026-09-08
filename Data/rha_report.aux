@@ -1,0 +1,69 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}The Dataset: What It Actually Contains}{1}{section.2}\protected@file@percent }
+\newlabel{fig:yield}{{1a}{2}{Parse yield and the distribution of recovered strength points by replacement level}{figure.caption.1}{}}
+\newlabel{sub@fig:yield}{{a}{2}{Parse yield and the distribution of recovered strength points by replacement level}{figure.caption.1}{}}
+\newlabel{fig:avail}{{1b}{2}{Per-feature availability among the 44 yielding papers}{figure.caption.1}{}}
+\newlabel{sub@fig:avail}{{b}{2}{Per-feature availability among the 44 yielding papers}{figure.caption.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The dataset is small and sparse. Chemistry (SiO$_2$, oxides) and w/b are reasonably populated; fineness measures (BET, Blaine, specific surface) are scarce.}}{2}{figure.caption.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Data Representation: Parsing the Packed Cells}{2}{section.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Physics checks on the parsed data, computed within papers. \textbf  {Left:} each \emph  {(paper, replacement level)} series is normalised by its own 28-day strength; the median rises with age (shaded band is the IQR across series). Wiggles at 2, 91 and 120\,d come from ages with very few series and are small-$n$ noise, not a reversal of the trend. \textbf  {Right:} the 28-day strength-vs-replacement curve has an interior optimum in only 42\% of papers; in 36\% the best level tested is the lowest one.}}{3}{figure.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:curves}{{2}{3}{Physics checks on the parsed data, computed within papers. \textbf {Left:} each \emph {(paper, replacement level)} series is normalised by its own 28-day strength; the median rises with age (shaded band is the IQR across series). Wiggles at 2, 91 and 120\,d come from ages with very few series and are small-$n$ noise, not a reversal of the trend. \textbf {Right:} the 28-day strength-vs-replacement curve has an interior optimum in only 42\% of papers; in 36\% the best level tested is the lowest one}{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Feature Engineering}{3}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Methodology}{4}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Ablation Study}{4}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Study 1 --- Target framing.}{4}{section*.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Study 1: target framing (XGBoost, all structured features).}}{4}{table.caption.4}\protected@file@percent }
+\newlabel{tab:s1}{{1}{4}{Study 1: target framing (XGBoost, all structured features)}{table.caption.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Study 2 --- Model.}{4}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Study 3 --- Feature set.}{4}{section*.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Study 2: model (framing C, all features).}}{5}{table.caption.7}\protected@file@percent }
+\newlabel{tab:s2}{{2}{5}{Study 2: model (framing C, all features)}{table.caption.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Study 3: feature set (framing C, XGBoost).}}{5}{table.caption.7}\protected@file@percent }
+\newlabel{tab:s3}{{3}{5}{Study 3: feature set (framing C, XGBoost)}{table.caption.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{Study 4 --- Imputation.}{5}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Study 5 --- Physics priors.}{5}{section*.9}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Study 4: imputation (framing C).}}{5}{table.caption.10}\protected@file@percent }
+\newlabel{tab:s4}{{4}{5}{Study 4: imputation (framing C)}{table.caption.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Study 5: physics priors (base features).}}{5}{table.caption.10}\protected@file@percent }
+\newlabel{tab:s5}{{5}{5}{Study 5: physics priors (base features)}{table.caption.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Feature-set ablation: parsimony wins (repeated grouped hold-out, mean\,$\pm $\,std).}}{6}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:ablfeat}{{3}{6}{Feature-set ablation: parsimony wins (repeated grouped hold-out, mean\,$\pm $\,std)}{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Final Model and Results}{6}{section.7}\protected@file@percent }
+\newlabel{sec:final}{{7}{6}{Final Model and Results}{section.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{Features used (framing C).}{6}{section*.12}\protected@file@percent }
+\newlabel{fig:pva}{{4a}{7}{Out-of-fold predictions}{figure.caption.13}{}}
+\newlabel{sub@fig:pva}{{a}{7}{Out-of-fold predictions}{figure.caption.13}{}}
+\newlabel{fig:resid}{{4b}{7}{Residual diagnostics}{figure.caption.13}{}}
+\newlabel{sub@fig:resid}{{b}{7}{Residual diagnostics}{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Final model behaviour, from a single pooled 5-fold \texttt  {GroupKFold} pass ($R^2${}~$=0.63$ pooled, versus the $0.50\pm 0.20$ repeated-hold-out estimate quoted in the table above). Colour encodes replacement level. The dashed line is the ideal $y=x$; the points falling far below it at the right of (a) are the single UHPC paper.}}{7}{figure.caption.13}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Feature importance of the final model. The paper's control strength and the curing age dominate; replacement level provides the RHA-specific modulation.}}{8}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:imp}{{5}{8}{Feature importance of the final model. The paper's control strength and the curing age dominate; replacement level provides the RHA-specific modulation}{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Predicting the Optimal Replacement Level}{8}{section.8}\protected@file@percent }
+\newlabel{sec:opt}{{8}{8}{Predicting the Optimal Replacement Level}{section.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Predicted vs reported optimal replacement level. The predictions form a horizontal line: the model emits a constant 7.5\% for every held-out paper, below the 11.5\% corpus mean, and so loses to the mean prior it is compared against.}}{9}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:opt}{{6}{9}{Predicted vs reported optimal replacement level. The predictions form a horizontal line: the model emits a constant 7.5\% for every held-out paper, below the 11.5\% corpus mean, and so loses to the mean prior it is compared against}{figure.caption.15}{}}
+\newlabel{sec:part2}{{8}{9}{Part II --- Sensitivity to the UHPC-Regime Outliers}{part*.16}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Which Papers, and Why}{9}{section.9}\protected@file@percent }
+\newlabel{sec:part2-cutoff}{{9}{9}{Which Papers, and Why}{section.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces The two papers removed by the 120\,MPa cutoff, and the highest strength reported by any of the 42 papers kept: 100.0\,MPa.}}{10}{table.6}\protected@file@percent }
+\newlabel{tab:cutoff}{{6}{10}{The two papers removed by the 120\,MPa cutoff, and the highest strength reported by any of the 42 papers kept: 100.0\,MPa}{table.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Reproducibility check.}{10}{section*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {10}Results With and Without the UHPC Papers}{10}{section.10}\protected@file@percent }
+\newlabel{sec:part2-results}{{10}{10}{Results With and Without the UHPC Papers}{section.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {11}Discussion}{10}{section.11}\protected@file@percent }
+\newlabel{sec:part2-discussion}{{11}{10}{Discussion}{section.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {12}An LLM Ablation: Does Control Strength Matter Across Model Families?}{11}{section.12}\protected@file@percent }
+\newlabel{sec:part2-opus}{{12}{11}{An LLM Ablation: Does Control Strength Matter Across Model Families?}{section.12}{}}
+\@writefile{toc}{\contentsline {paragraph}{Setup.}{11}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Two models.}{12}{section*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {12.1}Overall Result}{12}{subsection.12.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {12.2}Result by Compressive-Strength Category}{12}{subsection.12.2}\protected@file@percent }
+\newlabel{sec:part2-opus-bins}{{12.2}{12}{Result by Compressive-Strength Category}{subsection.12.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {12.3}Where It Still Fails: Paper P064}{13}{subsection.12.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {12.4}Summary}{13}{subsection.12.4}\protected@file@percent }
+\gdef \@abspage@last{13}
