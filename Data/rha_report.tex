@@ -644,9 +644,12 @@ share the identical test papers.
 
 \subsection{Result by Compressive-Strength Category}
 \label{sec:part2-opus-bins}
-The dataset's own three strength regimes (Low $<30$\,MPa, Middle $30$--$60$\,MPa, High
-$\geq60$\,MPa) split the 57 test points 24/18/15 and reveal where control strength
-actually earns its keep, for both models.
+Each test paper is assigned to one of three strength categories by its own 28-day
+control strength (Low $<30$\,MPa: P036, P022; Middle $30$--$60$\,MPa: P007, P030; High
+$\geq60$\,MPa: P054, P064). The category is a property of the \emph{paper}, not of each
+individual point---P054's points, for example, run from 42 to 78\,MPa---and it splits
+the 57 test points 24/18/15. It reveals where control strength actually earns its
+keep, for both models.
 
 \begin{center}\footnotesize
 \begin{tabular}{lrrrrrrrr}
@@ -715,5 +718,293 @@ is felt almost entirely at the high-strength end of the corpus.} That three comp
 different predictors---a gradient-boosted tree and two general-purpose LLMs from
 different vendors---land on the same qualitative conclusion, on the same held-out
 papers, is considerably stronger evidence for that claim than any single result alone.
+
+% ============================================================================
+\part*{Part III --- Reproducibility of the LLM Pipeline}
+\label{sec:part3}
+
+Part~II reported each LLM result from a single run. This part asks whether those
+numbers can be trusted, through two questions on the same six-paper benchmark:
+\begin{enumerate}\itemsep2pt
+  \item \textbf{Scope.} If every data point above 60\,MPa is removed---the
+        high-strength regime we are not interested in---do the results improve?
+  \item \textbf{Reproducibility.} If the \emph{same} prompt is sent repeatedly at
+        temperature~0, does the model return the same predictions, and how much do
+        \R{}, RMSE and MAE move from run to run?
+\end{enumerate}
+Two models were planned for the reproducibility test: \textbf{gpt-oss:120b-cloud}
+(cloud-hosted) and \textbf{DeepSeek-R1 8B} (run locally). The first completed; the second
+could not be run on the available hardware, which is documented in
+Section~\ref{sec:part3-deepseek}.
+
+% ----------------------------------------------------------------------------
+\section{Scope Change: Removing Points Above 60\,MPa}
+\label{sec:part3-scope}
+The filter is applied \emph{point by point}: every row whose compressive strength
+exceeds 60\,MPa is removed from both the training files and the test/ground-truth files.
+
+\begin{center}\small
+\begin{tabular}{lrrl}
+\toprule
+File & Before & After & Removed \\
+\midrule
+Test points (both conditions) & 57 & 49 & 8: P007 ($-1$), P054 ($-3$), P064 ($-4$) \\
+Training rows, WITH\_CONTROL & 215 & 193 & 22 \\
+Training rows, NO\_CONTROL & 566 & 501 & 65 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent All six test papers still contribute points (P064 is down to two). The true
+strengths now span 3.1--59.0\,MPa instead of 3.1--111.3\,MPa. Because the strength
+categories of Part~II are assigned per paper by control strength
+(Section~\ref{sec:part2-opus-bins}), the two high-control papers P054 and P064 still
+contribute 8 points, all of which are themselves $\leq60$\,MPa. In the tables below this
+category is therefore labelled \emph{high-baseline papers} rather than ``high strength''.
+
+% ----------------------------------------------------------------------------
+\section{Does Removing High-Strength Points Improve the Results?}
+\label{sec:part3-filter}
+To isolate the effect of the filter, we re-scored the \emph{same} gpt-oss predictions
+from Part~II on the 49 remaining points. No model was re-run, so the predictions are
+identical and the only difference is which points are counted.
+
+\begin{center}\small
+\begin{tabular}{llrrrr}
+\toprule
+Condition & Points & \R{} & RMSE (MPa) & MAE (MPa) & Bias (MPa) \\
+\midrule
+WITH\_CONTROL & all 57 & $0.887$ & $8.41$ & $7.17$ & $-1.48$ \\
+              & $\leq60$\,MPa (49) & $0.797$ & $\mathbf{7.49}$ & $\mathbf{6.64}$ & $\mathbf{-0.09}$ \\
+\midrule
+NO\_CONTROL   & all 57 & $0.487$ & $17.92$ & $12.78$ & $-6.82$ \\
+              & $\leq60$\,MPa (49) & $0.295$ & $\mathbf{13.94}$ & $\mathbf{9.79}$ & $\mathbf{-2.86}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The answer depends on the metric. \textbf{The errors improve}: with control
+strength, RMSE falls by 11\% and MAE by 7\%, and the bias almost vanishes
+($-1.48\to-0.09$\,MPa); without it, RMSE and MAE both fall by 22--23\%. \textbf{\R{}
+gets worse} ($0.887\to0.797$ and $0.487\to0.295$).
+
+Both statements are true at once because \R{} is a \emph{relative} measure:
+\[
+R^2 = 1-\frac{\text{SS}_\text{res}}{\text{SS}_\text{tot}},
+\]
+where $\text{SS}_\text{res}$ is the sum of squared prediction errors and
+$\text{SS}_\text{tot}$ is the total spread of the true values around their mean. The
+eight removed points were the most extreme in the test set, so removing them shrinks
+the spread far more than it shrinks the errors:
+
+\begin{center}\small
+\begin{tabular}{lrrr}
+\toprule
+ & All 57 & $\leq60$\,MPa (49) & Change \\
+\midrule
+Standard deviation of true strength & 25.0\,MPa & 16.6\,MPa & \\
+$\text{SS}_\text{tot}$ (spread to explain) & 35{,}662 & 13{,}512 & $-62\%$ \\
+$\text{SS}_\text{res}$, WITH\_CONTROL & 4{,}032 & 2{,}747 & $-32\%$ \\
+$\text{SS}_\text{res}$, NO\_CONTROL & 18{,}307 & 9{,}523 & $-48\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent With less variation left to explain, even smaller errors explain a smaller
+share of it. \R{} values computed on the 57-point and 49-point sets therefore should
+not be compared directly; RMSE and MAE, which are in MPa, are the right measures of
+whether the model got more accurate. By those measures the filtered benchmark is
+easier, and the model is more accurate on it---but that is a narrowing of scope, not a
+free improvement: the model has simply stopped being asked about the points it was
+worst at. Fable cannot be re-scored the same way, because only aggregate metrics per
+paper-level category are available for it, not its individual predictions.
+
+% ----------------------------------------------------------------------------
+\section{Reproducibility at Temperature 0}
+\label{sec:part3-repro}
+
+\paragraph{Protocol.} Part~II sent one prompt per test paper. To test whether
+\emph{literally the same} prompt gives the same answer, Part~III uses one fixed prompt
+per condition, containing the filtered training CSV and all 49 filtered test rows (each
+row carrying its own paper ID), and asks for a JSON array of 49 predictions. The prompt
+is 109{,}021 characters ($\approx$31k tokens) for WITH\_CONTROL and 228{,}336 characters
+($\approx$65k tokens) for NO\_CONTROL. Each prompt was sent five times, unchanged, with
+\texttt{temperature}\,=\,0 and a fixed \texttt{seed}\,=\,0. Temperature~0 means the
+model always picks its single most likely next token instead of sampling, which is the
+setting normally used when repeatable output is wanted. Predictions were scored against
+the ground truth matched by paper, replacement level and age.
+
+\subsection{gpt-oss:120b-cloud}
+Every call returned in 30--52\,s. Nine of the ten runs returned a valid answer; one
+WITH\_CONTROL run returned 46 numbers for 49 queries, which cannot be matched to the
+queries, and is excluded.
+
+\begin{center}\small
+\begin{tabular}{lrrrrrr}
+\toprule
+& \multicolumn{3}{c}{WITH\_CONTROL} & \multicolumn{3}{c}{NO\_CONTROL} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Run & \R{} & RMSE & MAE & \R{} & RMSE & MAE \\
+\midrule
+1 & \multicolumn{3}{c}{\emph{invalid output (46 of 49 values)}} & $0.449$ & $12.32$ & $8.06$ \\
+2 & $0.836$ & $6.73$ & $5.55$ & $0.365$ & $13.23$ & $8.20$ \\
+3 & $0.380$ & $13.08$ & $10.48$ & $0.069$ & $16.02$ & $11.21$ \\
+4 & $0.501$ & $11.74$ & $8.96$ & $0.019$ & $16.45$ & $12.80$ \\
+5 & $0.584$ & $10.71$ & $6.90$ & $0.443$ & $12.39$ & $8.92$ \\
+\midrule
+Mean $\pm$ SD & $\mathbf{0.575\pm0.167}$ & $10.56\pm2.37$ & $7.97\pm1.89$
+              & $\mathbf{0.269\pm0.187}$ & $14.08\pm1.79$ & $9.84\pm1.86$ \\
+Range of \R{} & \multicolumn{3}{c}{0.380 -- 0.836} & \multicolumn{3}{c}{0.019 -- 0.449} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent \textbf{The output is not reproducible.} No two runs produced the same set of
+predictions (4 distinct answers from 4 valid WITH\_CONTROL runs, 5 from 5 NO\_CONTROL
+runs), and \emph{none} of the 49 queries received the same value in every run. A typical
+query's prediction moves by about 4--6\,MPa between runs (median standard deviation
+5.9\,MPa with control, 4.4\,MPa without), and the worst by 12--16\,MPa. As a result, the
+same prompt can score anywhere from \R{}~$=0.38$ to $0.84$ with control strength.
+
+The usual explanation is how cloud inference is served; we cannot inspect the server,
+so this is the documented mechanism rather than something we measured. Temperature~0
+removes randomness in \emph{choosing} a token, but the probabilities it chooses from are
+themselves computed on shared GPUs that process many users' requests together in
+batches. The order in which the GPU adds numbers depends on what else is in the batch,
+and floating-point rounding makes that order matter slightly. gpt-oss is also a
+mixture-of-experts model, in which each token is sent to a subset of sub-networks, so a
+tiny numerical difference can change which sub-network handles it. Once a single token
+differs, everything generated after it differs too. The fixed seed does not help,
+because it controls sampling, which temperature~0 already switches off.
+
+\paragraph{Result by strength category.} Mean MAE across the valid runs, with its
+standard deviation across runs, and the mean bias:
+
+\begin{center}\small
+\begin{tabular}{lrrrr}
+\toprule
+& \multicolumn{2}{c}{NO\_CONTROL} & \multicolumn{2}{c}{WITH\_CONTROL} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Category (points) & MAE & Bias & MAE & Bias \\
+\midrule
+Low, control $<30$ (24) & $6.02\pm3.00$ & $+4.64$ & $5.00\pm3.00$ & $+3.76$ \\
+Middle, control $30$--$60$ (17) & $7.55\pm2.94$ & $-3.02$ & $10.78\pm3.75$ & $-6.64$ \\
+High-baseline papers, control $\geq60$ (8) & $26.15\pm2.88$ & $-26.15$ & $\mathbf{10.91\pm5.11}$ & $-9.53$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Two conclusions from Part~II survive the run-to-run noise, and one does not
+generalise:
+\begin{itemize}\itemsep2pt
+  \item \textbf{Control strength still helps overall.} Mean \R{} is $0.575$ with control
+        against $0.269$ without, and three of the four valid WITH\_CONTROL runs score
+        above the best NO\_CONTROL run ($0.449$). The gap in overall MAE (7.97 vs 9.84\,MPa)
+        is, however, about the size of a single run's spread ($\approx$1.9\,MPa), so it
+        should not be quoted from one run.
+  \item \textbf{The benefit is concentrated in the high-baseline papers.} Without
+        control strength, their points are under-predicted by 26\,MPa on average even
+        though every one of them is now $\leq60$\,MPa; with control strength the error
+        drops to 10.9\,MPa. This gap is several times larger than the run-to-run spread,
+        so it is robust.
+  \item \textbf{For middle-category papers, control strength did not help in this
+        protocol}: MAE is higher with it ($10.78$ vs $7.55$\,MPa), with the predictions
+        pulled low (bias $-6.64$\,MPa). Part~II's per-paper prompts did not show this, so
+        it may come from mixing all six papers into one prompt; with one Part~II run and
+        four Part~III runs, we cannot tell.
+\end{itemize}
+
+\paragraph{What this means for Part~II.} Part~II's single-run value on the same 49
+points (\R{}~$=0.797$ with control, Section~\ref{sec:part3-filter}) lies inside this
+run-to-run range, and is best read as one draw from it rather than as a fixed property
+of the model. Part~II used one prompt per paper and Part~III one prompt for all papers,
+so the difference between 0.797 and the Part~III mean of 0.575 mixes the change of
+prompt with run-to-run noise and cannot be split between them with a single Part~II run.
+The same caution applies to the Fable numbers in Part~II, which also come from single
+runs. \textbf{Any LLM result on this benchmark should be reported as a mean and standard
+deviation over repeated runs.}
+
+% ----------------------------------------------------------------------------
+\subsection{DeepSeek-R1 8B: Not Feasible on the Available Hardware}
+\label{sec:part3-deepseek}
+DeepSeek-R1 8B was to be the local counterpart to gpt-oss: a small model with no
+cloud dependency and, running on one machine with no other users, potentially more
+repeatable. It could not complete a single prediction call for this benchmark.
+
+\begin{center}\small
+\begin{tabular}{ll}
+\toprule
+\multicolumn{2}{l}{\textbf{Hardware and model}} \\
+\midrule
+GPU & NVIDIA GeForce RTX 5060 Laptop GPU, 8\,GB VRAM \\
+Model & \texttt{deepseek-r1:8b} via Ollama 0.33.1 (Qwen3-8B base, 8.2B parameters) \\
+Quantisation / size on disk & 4-bit (Q4\_K\_M), 5.2\,GB \\
+Native context window & 32{,}768 tokens (extendable to 131{,}072) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}\small
+\begin{tabular}{p{0.44\linewidth}lp{0.30\linewidth}}
+\toprule
+Test & Context setting & Outcome \\
+\midrule
+Control: short filler prompt (6{,}817 tokens) & 8{,}192 & Finished in 19.5\,s (reading
+  2{,}279 tokens/s, writing 51.5 tokens/s) \\
+Part~II prompt, one paper (9 rows, 38{,}722 tokens) & 32{,}768 & Rejected: prompt longer
+  than the context window \\
+Same prompt & 49{,}152 & No answer after $>$10\,min; stopped \\
+Part~III prompt, all 49 rows ($\approx$31k tokens) & 49{,}152 & No answer within the
+  15\,min limit \\
+Part~III prompt cut to 2 rows (same training data, $\approx$19k tokens) & 49{,}152 &
+  No answer within the 10\,min limit \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent The NO\_CONTROL prompt, at about twice the length, was not attempted.
+
+\paragraph{Why.} Ollama's process monitor (\texttt{ollama ps}) during these runs showed
+the model occupying \textbf{12\,GB at the 49{,}152-token setting, split 53\% CPU / 47\%
+GPU}. Besides its weights, a language model keeps a working memory (the key--value
+cache) for every token of the prompt, and this grows with the context length. At
+about 49k tokens, weights plus working memory need 12\,GB, which does not fit in 8\,GB of
+VRAM, so Ollama runs roughly half of the model on the CPU, which is far slower. The
+short control prompt, which fits on the GPU, ran at normal speed. Cutting the queries
+from 49 to 2 did not help, which shows that the cost comes from the length of the
+training data in the prompt, not from the number of predictions asked for. DeepSeek-R1
+also writes a hidden reasoning section before its answer, which lengthens every
+response; how long it ran in these calls is unknown, because no call returned.
+
+\paragraph{Cost of the planned run.} Five repeats in two conditions would be ten calls.
+Each of the calls above ran for 10--15\,min without an answer, so the full run would take
+at least 2.5\,hours with no assurance that any call finishes, and the NO\_CONTROL prompt
+is twice as long. The run would become feasible on a GPU large enough to hold the
+12\,GB WITH\_CONTROL footprint entirely (and more for NO\_CONTROL), or with a training
+context short enough to fit in 8\,GB (roughly 30--40 rows instead of 193 and 501). The
+second option is a different, weaker experiment whose results could not be compared
+with gpt-oss, so no DeepSeek-R1 8B results are reported.
+
+% ----------------------------------------------------------------------------
+\section{Part III Summary}
+\label{sec:part3-summary}
+\begin{itemize}\itemsep3pt
+  \item \textbf{Removing points above 60\,MPa}, which cuts the test set from 57 to 49
+        points, lowers absolute errors: MAE falls from 7.17 to 6.64\,MPa with control and
+        from 12.78 to 9.79\,MPa without. It also lowers \R{} (0.887 to 0.797 with control;
+        0.487 to 0.295 without), because the spread of true values shrinks by 62\%. It
+        narrows the question rather than improving the model, and \R{} is not comparable
+        across the two sets.
+  \item \textbf{gpt-oss:120b-cloud is not reproducible at temperature~0.} The same
+        prompt gave a different answer on every run; \R{} with control ranged from 0.38 to
+        0.84 (mean $0.575\pm0.167$), and $0.269\pm0.187$ without. Temperature~0 does not
+        make a cloud-served model deterministic.
+  \item \textbf{The control-strength effect survives this noise}, mainly through the
+        high-baseline papers (MAE 26.2$\to$10.9\,MPa), but single-run LLM numbers,
+        including Part~II's, should be treated as one draw from a distribution.
+  \item \textbf{DeepSeek-R1 8B could not be run}: with the training data in the prompt,
+        the model needs 12\,GB, does not fit the 8\,GB laptop GPU, and falls back to
+        53\% CPU execution; no call finished within 10--15 minutes.
+\end{itemize}
 
 \end{document}
